@@ -1,8 +1,8 @@
 # Elden Ring Cheat Sheet
 
-This repository is a snapshot of what the website used to look like.
-
 The project has moved to [Elden Ring Cheat Sheets](https://github.com/rdmaw/elden-ring-cheat-sheets).
+
+This repository is a snapshot of what the website used to look like, and a reminder of how far the project has come since I started it back in early 2025.
 
 <hr>
 
