@@ -729,7 +729,7 @@ var profilesKey = "er_profiles";
   document.addEventListener('keydown', function(e) {
     if (e.target.matches('input[type="search"], textarea')) return;
 
-    if (e.key.toLowerCase() === 'q' && !e.ctrlKey && !e.metaKey) {
+    if (e.key.toLowerCase() === 's' && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
       const offcanvasElement = document.getElementById("offcanvasNavbar");
       const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
@@ -766,7 +766,7 @@ var profilesKey = "er_profiles";
       case '9':
         document.querySelector('#faq-tab').click();
         break;
-      case 's':
+      case 'q':
         document.querySelector('[data-filter="all"]').click();
         break;
       case 'b':
@@ -790,7 +790,7 @@ var profilesKey = "er_profiles";
       case 'c':
         document.querySelector('.tab-pane.active .btn-collapse-all').click();
         break;
-      case 'u':
+      case 't':
         window.scrollTo({
           top: 0,
           behavior: 'auto'
@@ -845,7 +845,5 @@ var profilesKey = "er_profiles";
 const totalSize = Object.keys(localStorage).reduce((total, key) => {
   return total + (localStorage[key].length + key.length) * 2;
 }, 0) / 1024 / 1024;
-
-console.log(`Total localStorage usage: ${totalSize.toFixed(2)} MB`);
 
 })(jQuery);
