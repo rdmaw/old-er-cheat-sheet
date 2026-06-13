@@ -8,12 +8,22 @@ var profilesKey = "er_profiles";
   defaultProfiles[profilesKey] = {
     "Default": {
       checklistData: {},
-      collapsed: {},
+      collapsed: {
+        "navbarNavDropdown": true,
+      },
       isDefault: true,
       lastActiveTab: '#tabPlaythrough',
       activeFilter: 'all',
     },
   };
+
+  const themes = ['notebook', 'light', 'dark'];
+  const icons = {
+    'notebook': 'bi-journal-bookmark-fill',
+    'light': 'bi-sun-fill',
+    'dark': 'bi-moon-stars-fill'
+  };
+  const SCROLL_POSITION_KEY = "er_scroll_position";
 
   var profiles = $.jStorage.get(profilesKey, defaultProfiles);
 
@@ -40,15 +50,14 @@ var profilesKey = "er_profiles";
 
     $('.collapse').each(function () {
       const collapseId = $(this).attr('id');
-      if (collapseId === 'navbarNavDropdown') return;
       const isCollapsed = profiles[profilesKey][profiles.current].collapsed[collapseId];
 
       if (isCollapsed) {
         $(this).removeClass('show');
-        $(this).prev().find('.btn-collapse').addClass('collapsed').attr('aria-expanded', 'false');
+        $(this).prev().find('.btn-collapse').addClass('collapsed');
       } else {
         $(this).addClass('show');
-        $(this).prev().find('.btn-collapse').removeClass('collapsed').attr('aria-expanded', 'true');
+        $(this).prev().find('.btn-collapse').removeClass('collapsed');
       }
     });
 
@@ -74,23 +83,43 @@ var profilesKey = "er_profiles";
     calculateTotals();
   }
 
+  function setTheme(themeName) {
+    document.documentElement.setAttribute('data-theme', themeName);
+    localStorage.setItem('theme', themeName);
+
+    const icon = icons[themeName];
+    $('#themeToggleCollapsed i, #themeToggleExpanded i').attr('class', `bi ${icon}`);
+  }
+
   $(document).ready(function () {
     initializeUI();
     calculateTotals();
 
-    $('.theme-btn').click(function () {
-      const isDark = document.documentElement.classList.toggle('dark-mode');
-      localStorage.setItem('theme', isDark ? 'dark-mode' : '');
-    });
-    
-    $('#colorBlindnessToggle').on('change', function() {
-    setColorBlindnessMode(this.value);
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+
+    $('#themeToggleCollapsed, #themeToggleExpanded').click(function () {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      const nextThemeIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
+      setTheme(themes[nextThemeIndex]);
     });
 
-    const savedColorBlindness = localStorage.getItem('colorBlindness');
-    if (savedColorBlindness) {
-      $('#colorBlindnessToggle').val(savedColorBlindness);
-    }
+    const savedScrollPos = localStorage.getItem(SCROLL_POSITION_KEY) || 0;
+    setTimeout(() => {
+      window.scrollTo({
+        top: parseInt(savedScrollPos),
+        behavior: 'auto'
+      });
+    }, 100);
+
+    let scrollTimeout;
+    $(window).scroll(function () {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function () {
+        const scrollPos = $(window).scrollTop();
+        localStorage.setItem(SCROLL_POSITION_KEY, scrollPos.toString());
+      }, 100);
+    });
 
     $("a[href^='http']").attr("target", "_blank");
 
@@ -263,9 +292,6 @@ var profilesKey = "er_profiles";
       const collapseId = $(this).attr('id');
       const isCollapsed = !$(this).hasClass('show');
 
-      $(this).prev().find('.btn-collapse').attr('aria-expanded', !isCollapsed);
-      $(this).attr('aria-hidden', isCollapsed);
-
       profiles[profilesKey][profiles.current].collapsed[collapseId] = isCollapsed;
       $.jStorage.set(profilesKey, profiles);
     });
@@ -274,8 +300,8 @@ var profilesKey = "er_profiles";
       const $section = $(this).closest('.tab-pane');
       const $collapseElements = $section.find('.collapse');
 
-      $collapseElements.removeClass('show').attr('aria-hidden', 'true');
-      $collapseElements.prev().find('.btn-collapse').addClass('collapsed').attr('aria-expanded', 'false');
+      $collapseElements.removeClass('show');
+      $collapseElements.prev().find('.btn-collapse').addClass('collapsed');
 
       const collapseStates = {};
       $collapseElements.each(function () {
@@ -291,8 +317,8 @@ var profilesKey = "er_profiles";
       const $section = $(this).closest('.tab-pane');
       const $collapseElements = $section.find('.collapse');
 
-      $collapseElements.addClass('show').attr('aria-hidden', 'false');
-      $collapseElements.prev().find('.btn-collapse').removeClass('collapsed').attr('aria-expanded', 'true');
+      $collapseElements.addClass('show');
+      $collapseElements.prev().find('.btn-collapse').removeClass('collapsed');
 
       const collapseStates = {};
       $collapseElements.each(function () {
@@ -337,24 +363,28 @@ var profilesKey = "er_profiles";
 
   function addCheckbox(el) {
     var $el = $(el);
-    var content = $el.html().split('\n')[0];
-    var sublists = $el.children('ul');
+    var content = $el.contents().not($el.children('ul')).detach();
+    var sublists = $el.children('ul').detach();
     var checkboxId = $el.attr('data-id');
 
-    var template =
-      '<div class="checkbox">' +
-      '<input type="checkbox" id="' + checkboxId + '">' +
-      '<label for="' + checkboxId + '">' +
-      '<span class="item_content">' + content + '</span>' +
-      '</label>' +
-      '</div>';
+    var template = `
+      <div class="checkbox">
+        <input type="checkbox" id="${checkboxId}">
+        <label for="${checkboxId}">
+          <span class="checkbox-custom"></span>
+          <span class="item_content"></span>
+        </label>
+      </div>
+    `;
 
-    $el.html(template).append(sublists);
+    $el.html(template);
+    $el.find('.item_content').append(content);
+    $el.append(sublists);
 
     var storedState = profiles[profilesKey][profiles.current].checklistData[checkboxId];
     if (storedState) {
-      $('#' + checkboxId).prop('checked', true);
-      $('label', $el).addClass('completed');
+      $("#" + checkboxId).prop("checked", true);
+      $el.find('label').addClass("completed");
     }
   }
 
@@ -455,7 +485,6 @@ var profilesKey = "er_profiles";
         $(this).removeClass("done").addClass("in_progress");
       }
     });
-    updateNavLinkStates();
   }
 
   function clearUI() {
@@ -514,10 +543,10 @@ var profilesKey = "er_profiles";
 
       if (isCollapsed) {
         $(this).removeClass('show');
-        $(this).prev().find('.btn-collapse').addClass('collapsed').attr('aria-expanded', 'false');
+        $(this).prev().find('.btn-collapse').addClass('collapsed');
       } else {
         $(this).addClass('show');
-        $(this).prev().find('.btn-collapse').removeClass('collapsed').attr('aria-expanded', 'true');
+        $(this).prev().find('.btn-collapse').removeClass('collapsed');
       }
     });
 
@@ -725,125 +754,5 @@ var profilesKey = "er_profiles";
   createSearchHandler('Armaments', '.checkbox .item_content');
   createSearchHandler('Armor', '.checkbox .item_content');
   createSearchHandler('Misc', '.checkbox .item_content');
-
-  document.addEventListener('keydown', function(e) {
-    if (e.target.matches('input[type="search"], textarea')) return;
-
-    if (e.key.toLowerCase() === 's' && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      const offcanvasElement = document.getElementById("offcanvasNavbar");
-      const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement) || new bootstrap.Offcanvas(offcanvasElement);
-
-      bsOffcanvas[offcanvasElement.classList.contains('show') ? 'hide' : 'show']();
-      return;
-    }
-
-    switch (e.key.toLowerCase()) {
-      case '1':
-        document.querySelector('#playthrough-tab').click();
-        break;
-      case '2':
-        document.querySelector('#achievements-tab').click();
-        break;
-      case '3':
-        document.querySelector('#armaments-tab').click();
-        break;
-      case '4':
-        document.querySelector('#armor-tab').click();
-        break;
-      case '5':
-        document.querySelector('#ashes-tab').click();
-        break;
-      case '6':
-        document.querySelector('#spells-tab').click();
-        break;
-      case '7':
-        document.querySelector('#misc-tab').click();
-        break;
-      case '8':
-        document.querySelector('#resources-tab').click();
-        break;
-      case '9':
-        document.querySelector('#faq-tab').click();
-        break;
-      case 'q':
-        document.querySelector('[data-filter="all"]').click();
-        break;
-      case 'b':
-        document.querySelector('[data-filter="boss"]').click();
-        break;
-      case 'n':
-        document.querySelector('[data-filter="npc"]').click();
-        break;
-      case 'k':
-        document.querySelector('[data-filter="key-item"]').click();
-        break;
-      case 'a':
-        document.querySelector('[data-filter="achievement"]').click();
-        break;
-      case 'm':
-        document.querySelector('[data-filter="merchant"]').click();
-        break;
-      case 'e':
-        document.querySelector('.tab-pane.active .btn-expand-all').click();
-        break;
-      case 'c':
-        document.querySelector('.tab-pane.active .btn-collapse-all').click();
-        break;
-      case 't':
-        window.scrollTo({
-          top: 0,
-          behavior: 'auto'
-        });
-        break;
-      case 'd':
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: 'auto'
-        });
-        break;
-    }
-  });
-
-  function updateNavLinkStates() {
-    const tabIds = ['Playthrough', 'Achievements', 'Armaments', 'Armor', 'Ashes', 'Spells', 'Misc'];
-    
-    tabIds.forEach(tabId => {
-      const navLink = document.querySelector(`#${tabId.toLowerCase()}-tab`);
-      const section = document.querySelector(`#tab${tabId}`);
-      const totalSpan = section.querySelector(`[id$="_overall_total"]`);
-      
-      if (totalSpan && totalSpan.textContent === 'DONE') {
-        navLink.classList.add('section-done');
-      } else {
-        navLink.classList.remove('section-done');
-      }
-    });
-  }
-
-  function setColorBlindnessMode(mode) {
-    document.documentElement.classList.remove(
-      "protanopia",
-      "deuteranopia", 
-      "tritanopia",
-      "achromatopsia"
-    );
-  
-    if (mode) {
-      document.documentElement.classList.add(mode);
-      localStorage.setItem('colorBlindness', mode);
-    } else {
-      localStorage.removeItem('colorBlindness');
-    }
-  }
-
-  const savedColorBlindness = localStorage.getItem('colorBlindness');
-  if (savedColorBlindness) {
-    setColorBlindnessMode(savedColorBlindness);
-  }
-
-const totalSize = Object.keys(localStorage).reduce((total, key) => {
-  return total + (localStorage[key].length + key.length) * 2;
-}, 0) / 1024 / 1024;
 
 })(jQuery);
