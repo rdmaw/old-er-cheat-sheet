@@ -2,7 +2,7 @@ This repository has moved to [Elden Ring Cheat Sheets](https://github.com/rdmaw/
 
 This branch contains the latest changes before the repository switch. For a snapshot of the website as it looked before the overhaul in May 2025, checkout the main branch.
 
-Below this line begins the unmodified README from this snapshot branch:
+Below this line begins the unmodified README from this branch:
 
 <hr>
 
