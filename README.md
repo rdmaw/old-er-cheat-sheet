@@ -2,7 +2,7 @@
 
 The official project has moved to [Elden Ring Cheat Sheets](https://github.com/rdmaw/elden-ring-cheat-sheets).
 
-This repository is a snapshot of the website before the redesign, and a reminder of how far the project has come since I started it back in early 2025.
+This repository is a snapshot of the website before it was completely overhauled in May 2025, and serves as a reminder of how far the project has come since then.
 
 <hr>
 
