@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Metadata -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net 'sha256-ZgNBgfzUvZm2AnY4fbSVFd0KqCRXSn2tBVyKlR2/YUw='; style-src 'self'; base-uri 'none'; form-action 'none';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' https://eldenring.redmaw.dev https://*.google-analytics.com https://*.googletagmanager.com data:; manifest-src 'self' https://eldenring.redmaw.dev; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; base-uri 'none'; form-action 'none';" />
   <meta name="description" content="An old archived version of Elden Ring Cheat Sheets before it was rebuilt from the ground up." />
   <!-- Links -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <script>
-    "dark-mode" === localStorage.getItem("theme") && document.documentElement.classList.add("dark-mode");
-    const e = localStorage.getItem("colorBlindness");
-    e && document.documentElement.classList.add(e);
-  </script>
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/main.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Stylesheets -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.cd49b.css" />
+  <!-- Scripts -->
+  <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script defer src="js/jstorage.8b455.js"></script>
+  <script defer src="js/highlight.a61ff.js"></script>
+  <script defer src="js/main.94aa7.js"></script>
   <title>Old Elden Ring Cheat Sheet</title>
 </head>
-
 <body>
   <header>
     <!-- Navbar -->
@@ -110,13 +114,10 @@
     <!-- Header -->
     <div class="header text-center px-2">
       <h1>Elden Ring Cheat Sheet</h1>
-      <p class="lead">A comprehensive cheat sheet for Elden Ring, including the Shadow of the Erdtree DLC.</p>
-      <p>
-        <span class="strong">If you notice any mistakes, or want to contribute during the early phase, please open an issue in the <a href="https://github.com/rdmaw/old-er-cheat-sheet">GitHub Repo</a>.<br />If this is your first time visiting, please check out the FAQ tab.</span>
-      </p>
-      <p><em>WARNING: Contains spoilers!</em></p>
-      <p class="alert alert-warning col-10 col-sm-8 mx-auto">🚧 The project is still under development. Content may change! 🚧</p>
-      <p><strong>Note:</strong> This project is an early snapshot of Elden Ring Cheat Sheets before it was rebuilt from the ground up.</p>
+      <p class="lead">A comprehensive cheat sheet for Elden Ring, including Shadow of the Erdtree DLC.</p>
+      <p><span class="strong">If you notice any mistakes, or want to contribute during the early phase, please open an issue in the <a href="https://github.com/rdmaw/elden-ring-cheat-sheet">GitHub Repo</a>.</span></p>
+      <p><span class="strong">If this is your first time visiting, please check out the FAQ tab.</span><br><span class="em">WARNING: Contains spoilers!</span></p>
+      🚧 The project is currently being developed 🚧
     </div>
   </header>
   <!-- CONTENT -->
@@ -4063,20 +4064,8 @@
   </main>
   <!-- potential import/export? Leaving as temp fix for #1 -->
   <textarea name="import" aria-hidden="true"></textarea>
-  <!-- Container -->
-  <button id="backToTop" class="back-to-top" aria-label="Scroll back to top button">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1">
-      <path d="M9 20v-8H5.414a1 1 0 0 1-.707-1.707l6.586-6.586a1 1 0 0 1 1.414 0l6.586 6.586A1 1 0 0 1 18.586 12H15v8a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1" />
-    </svg>
-  </button>
-  <footer>
-    <p>Made with ❤️ by <a href="https://contact.redmaw.dev" class="strong">Redmaw</a></p>
-  </footer>
-  <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/jstorage@0.4.8/jstorage.min.js" integrity="sha384-x1i+X/XuOSbNkAA+mxoxkXCPaiMSnMDnrWtLu7GyuWjLKGRPL9FBpz9gdBcH/Jx3" crossorigin="anonymous"></script>
-  <script defer src="js/jquery.highlight.min.js"></script>
-  <script defer src="js/main.min.js"></script>
+  <!-- container -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to top" aria-hidden="true"><i class="bi bi-arrow-up-short"></i></button>
+  <footer>Made with <i class="bi bi-suit-heart-fill"></i> by <a href="https://contact.redmaw.dev" class="title">Redmaw</a></footer>
 </body>
-
 </html>
