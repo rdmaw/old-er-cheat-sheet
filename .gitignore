@@ -1,6 +1,7 @@
 .wrangler
 _headers
 .assetsignore
+goatcounter.*.js
 robots.txt
 sitemap.xml
 wrangler.jsonc
